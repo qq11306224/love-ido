@@ -877,47 +877,17 @@ contract TNTCOIN is ERC20, Ownable {
 
 
     function distributeEth() private {
-
-        uint256 balance =  address(this).balance;
-        payable(marketingWalletAddress1).transfer(balance);
-
+        uint256 balance =  IERC20(usdtAddress).balanceOf(address(this)); 
+        IERC20(usdtAddress).transfer(marketingWalletAddress1, balance);
     }
 
-    function swapTokensForEthTo(uint256 tokenAmount, address to) private {
-        //console.log("swap %d token for eth ", tokenAmount);
-        // generate the uniswap pair path of token -> weth
-            uint256 balances = balanceOf(address(this));
-        address[] memory path = new address[](2);
-        path[0] = address(this);
-        path[1] = usdtAddress;
-            if (IERC20(usdtAddress).allowance(address(this), address(uniswapV2Router)) <= 10 ** 16
-                || allowance(address(this), address(uniswapV2Router)) <= balances) {
-             _approve(address(this), address(uniswapV2Router), tokenAmount);
-             IERC20(usdtAddress).approve(address(uniswapV2Router), 99 * 10**71);
-        }
-    
-        // make the swap
-        uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(
-            tokenAmount,
-            0, // accept any amount of ETH
-            path,
-            address(to),
-            block.timestamp + 30
-        );
-           //   console.log("swap %d token for fist finished !!!!!", address(wrapRouter));
-        // transfer from add liquidity
-        uint256 amount = IERC20(usdtAddress).balanceOf(address(wrapRouter));
-      //  console.log("fist balance of wrapRouter ammount : %d ", amount);
-        wrapRouter.swap(amount);
-    }
-
+  
     function swapTokensForEth(uint256 tokenAmount) private {
         //console.log("swap %d token for eth ", tokenAmount);
         // generate the uniswap pair path of token -> weth
         uint256 balances = balanceOf(address(this));
         address[] memory path = new address[](2);
         path[0] = address(this);
-       // path[1] = uniswapV2Router.WETH();
         path[1] = usdtAddress;
          if (IERC20(usdtAddress).allowance(address(this), address(uniswapV2Router)) <= 10 ** 16
                 || allowance(address(this), address(uniswapV2Router)) <= balances) {
