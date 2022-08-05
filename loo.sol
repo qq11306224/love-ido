@@ -601,7 +601,7 @@ contract TNTCOIN is ERC20, Ownable {
 
 
     IWrapperSwap public wrapRouter;
-    uint256 public buyMarketingFee1 = 2;
+    uint256 public buyMarketingFee1 = 1;
     uint256 public sellMarketingFee1 = 2;
 
 
@@ -828,7 +828,7 @@ contract TNTCOIN is ERC20, Ownable {
             }
             if(automatedMarketMakerPairs[to]){
                 // sell
-                MFee =  amount.mul(sellMarketingFee1).div(200);
+                MFee =  amount.mul(sellMarketingFee1).div(100);
                 DFee = amount.mul(sellDeadFee).div(100);
                 PFee = 0;
                 fees = MFee.add(DFee);
