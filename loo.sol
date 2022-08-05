@@ -654,12 +654,8 @@ contract TNTCOIN is ERC20, Ownable {
 
         IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(routerAddress);
         address _uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
-                .createPair(address(this), usdtAddress);
+                .createPair(usdtAddress,address(this));
 
-        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
-        // address _uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
-        //     .createPair(address(this), _uniswapV2Router.WETH());
-        // fistAddress = _uniswapV2Router.WETH();
 
         uniswapV2Router = _uniswapV2Router;
         uniswapPair = _uniswapV2Pair;
@@ -696,7 +692,7 @@ contract TNTCOIN is ERC20, Ownable {
         emit UpdateUniswapV2Router(newAddress, address(uniswapV2Router));
         uniswapV2Router = IUniswapV2Router02(newAddress);
         address _uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory())
-            .createPair( usdtAddress, address(this));
+            .createPair(usdtAddress,address(this));
         uniswapPair = _uniswapV2Pair;
         _setAutomatedMarketMakerPair(uniswapPair, true);
         
